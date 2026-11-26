@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Evently — design tokens
+   Chaque token @theme génère ses utilitaires Tailwind :
+   bg-background, text-foreground, border-surface, font-title, etc.
+   ========================================================================== */
+
+/* --- Palette brute (fixe, ne change pas selon le thème) ------------------ */
+@theme {
+  --color-night: #0a0316;    /* Violet nuit */
+  --color-deep: #6f34b2;     /* Violet profond */
+  --color-light: #b287de;    /* Violet clair */
+  --color-lavender: #fbf8ff; /* Lavande pâle */
+
+  /* Typographies */
+  --font-title: "Readex Pro", ui-sans-serif, system-ui, sans-serif; /* Titres + logo */
+  --font-body: "Manrope", ui-sans-serif, system-ui, sans-serif;     /* Texte + libellés */
+
+  /* Libellés (catégories, menu) : Manrope en capitales espacées */
+  --tracking-label: 0.15em;
+}
+
+/* --- Couleurs sémantiques (suivent le thème actif) ----------------------- */
+@theme inline {
+  --color-background: var(--background); /* Fond principal */
+  --color-surface: var(--surface);       /* Fond secondaire, bordures */
+  --color-accent: var(--accent);         /* Accent / texte secondaire */
+  --color-foreground: var(--foreground); /* Texte principal */
+}
+
+/* Thème sombre — par défaut */
+:root {
+  color-scheme: dark;
+  --background: var(--color-night);
+  --surface: var(--color-deep);
+  --accent: var(--color-light);
+  --foreground: var(--color-lavender);
+}
+
+/* Thème clair — activé avec <html data-theme="light"> */
+[data-theme="light"] {
+  color-scheme: light;
+  --background: var(--color-lavender);
+  --surface: var(--color-light);
+  --accent: var(--color-deep);
+  --foreground: var(--color-night);
+}
+
+@layer base {
+  body {
+    @apply bg-background font-body text-foreground antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-title;
+  }
+}
+
+/* Libellé : <span class="label">Concerts</span> */
+@utility label {
+  @apply font-body uppercase tracking-label;
+}
+
+/* Logo : <span class="logo">EVENTLY</span> */
+@utility logo {
+  @apply font-title font-semibold;
+}
